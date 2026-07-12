@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@retro-hub/shared": "*"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "name": "retro-launcher",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ]
+}
