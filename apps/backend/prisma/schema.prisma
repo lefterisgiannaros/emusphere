@@ -1,0 +1,56 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model Game {
+  id                  Int           @id @default(autoincrement())
+  sku                 String
+  title               String
+  platform            Platform
+  filePath            String        @unique
+  coverImagePath      String?
+  retroAchievementsId String?
+  isInBacklog         Boolean       @default(false)
+  emulatorId          Int?
+  emulator            Emulator?     @relation(fields: [emulatorId], references: [id])
+  createdAt           DateTime      @default(now())
+  sessions            GameSession[]
+}
+
+model GameSession {
+  id        Int       @id @default(autoincrement())
+  gameId    Int
+  game      Game      @relation(fields: [gameId], references: [id], onDelete: Cascade)
+  startedAt DateTime  @default(now())
+  endedAt   DateTime?
+}
+
+model Settings {
+  id                        Int     @id @default(autoincrement())
+  retroAchievementsUsername String?
+  retroAchievementsApiKey   String?
+  romDirectories            String  @default("[]")
+}
+
+model Emulator {
+  id             Int      @id @default(autoincrement())
+  name           String
+  executablePath String
+  platform       Platform
+  isDefault      Boolean  @default(false)
+  games          Game[]
+}
+
+enum Platform {
+  PS1
+  PS2
+  N64
+  SNES
+  GAMEBOY
+  NDS
+}
