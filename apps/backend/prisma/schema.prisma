@@ -9,7 +9,7 @@ datasource db {
 
 model Game {
   id                  Int           @id @default(autoincrement())
-  sku                 String
+  sku                 String?
   title               String
   platform            Platform
   filePath            String        @unique
@@ -53,4 +53,6 @@ enum Platform {
   SNES
   GAMEBOY
   NDS
+  GBC
+  GBA
 }

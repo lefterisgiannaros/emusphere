@@ -1,5 +1,5 @@
 {
-  "dependencies": {
-    "@retro-hub/shared": "*"
-  }
+  "name": "@retro-hub/shared",
+  "version": "1.0.0",
+  "private": true
 }

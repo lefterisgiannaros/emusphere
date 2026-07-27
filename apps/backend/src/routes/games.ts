@@ -3,6 +3,9 @@ import fs from "fs";
 import path from "path";
 import { prisma } from "../db";
 import { Platform } from "../generated/prisma/client";
+import { parseDat } from "../lib/datParser"
+import { hashFile } from "../lib/crc32";
+const DAT_DIR = path.join(__dirname, '../../data/dats');
 
 const router = Router();
 
@@ -15,6 +18,16 @@ const ROM_EXTENSIONS: Record<string, Platform> = {
   ".nds": "NDS",
   ".sfc": "SNES",
   ".smc": "SNES",
+  ".gbc": "GBC",
+  ".gba": "GBA",
+};
+
+const PLATFORM_DAT: Record<string, string> = {
+  "GBA": path.join(DAT_DIR, "Nintendo - Game Boy Advance.dat"),
+  "GBC": path.join(DAT_DIR, "Nintendo - Game Boy Color.dat"),
+  "GB":  path.join(DAT_DIR, "Nintendo - Game Boy.dat"),
+  "NDS": path.join(DAT_DIR, "Nintendo - Nintendo DS.dat"),
+  "PS1": path.join(DAT_DIR, "Sony - PlayStation.dat"),
 };
 
 router.post("/scan", async (req: Request, res: Response) => {
@@ -54,14 +67,37 @@ router.post("/scan", async (req: Request, res: Response) => {
     }
 
     const baseName = path.basename(romFile, extension);
-    await prisma.game.create({
+    const cleanName = baseName.replace(/^\d+ - /, '').trim();
+    const newGame = await prisma.game.create({
       data: {
-        sku: baseName,
-        title: baseName,
+        sku: null,
+        title: cleanName,
         platform,
         filePath,
       },
     });
+    
+    // hash the ROM file
+    const hash = hashFile(filePath);
+    
+    // get the dat file for this platform
+    const datPath = PLATFORM_DAT[platform];
+    
+    if (datPath) {
+      const datMap = parseDat(datPath);
+      const entry = datMap[hash];
+    
+      if (entry) {
+        await prisma.game.update({
+          where: { id: newGame.id },
+          data: {
+            title: entry.title,
+            sku: entry.serial ?? null,
+          },
+        });
+      }
+    }
+    
     added++;
   }
 
@@ -71,5 +107,6 @@ router.post("/scan", async (req: Request, res: Response) => {
     skipped,
   });
 });
+
 
 export default router;

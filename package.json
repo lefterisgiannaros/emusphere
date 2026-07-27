@@ -4,5 +4,8 @@
   "workspaces": [
     "apps/*",
     "packages/*"
-  ]
+  ],
+  "allowScripts": {
+    "better-sqlite3": true
+  }
 }
