@@ -3,17 +3,25 @@ import { prisma } from '../db';
 import { spawn } from 'child_process';
 import path from 'path';
 import os from 'os';
+import { PLATFORMS } from '../config/platforms';
 
 const router = Router();
 
-const PLATFORM_CORES: Record<string, string> = {
-  "GBA": "mgba_libretro",
-  "GBC": "gambatte_libretro",
-  "GB":  "gambatte_libretro",
-  "NDS": "desmume_libretro",
-  "PS1": "pcsx_rearmed_libretro",
-  "N64": "mupen64plus_next_libretro",
-};
+// const PLATFORM_CORES: Record<string, string> = {
+//   "GBA": "mgba_libretro",
+//   "GBC": "gambatte_libretro",
+//   "GB":  "gambatte_libretro",
+//   "NDS": "desmume_libretro",
+//   "PS1": "pcsx_rearmed_libretro",
+//   "N64": "mupen64plus_next_libretro",
+// };
+
+const PLATFORM_CORES: Record<string, string> = {};
+for (const [key, platform] of Object.entries(PLATFORMS)) {
+  for (const ext of platform.extensions) {
+    PLATFORM_CORES[ext] = key;
+  }
+}
 
 router.post("/:id/launch", async (req: Request, res: Response) => {
     const rawId = Array.isArray(req.params.id) ? req.params.id[0] : req.params.id;

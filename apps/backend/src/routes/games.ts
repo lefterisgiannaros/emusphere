@@ -6,29 +6,26 @@ import { Platform } from "../generated/prisma/client";
 import { parseDat } from "../lib/datParser"
 import { hashFile } from "../lib/crc32";
 const DAT_DIR = path.join(__dirname, '../../data/dats');
+import { PLATFORMS } from '../config/platforms';
 
 const router = Router();
 
-const ROM_EXTENSIONS: Record<string, Platform> = {
-  ".chd": "PS1",
-  ".iso": "PS1",
-  ".n64": "N64",
-  ".z64": "N64",
-  ".gb": "GAMEBOY",
-  ".nds": "NDS",
-  ".sfc": "SNES",
-  ".smc": "SNES",
-  ".gbc": "GBC",
-  ".gba": "GBA",
-};
+const ROM_EXTENSIONS: Record<string, Platform> = {};
+for (const [key, platform] of Object.entries(PLATFORMS)) {
+  for (const ext of platform.extensions) {
+    if (key in Platform) {
+      ROM_EXTENSIONS[ext] = key as Platform;
+    }
+  }
+}
 
-const PLATFORM_DAT: Record<string, string> = {
-  "GBA": path.join(DAT_DIR, "Nintendo - Game Boy Advance.dat"),
-  "GBC": path.join(DAT_DIR, "Nintendo - Game Boy Color.dat"),
-  "GB":  path.join(DAT_DIR, "Nintendo - Game Boy.dat"),
-  "NDS": path.join(DAT_DIR, "Nintendo - Nintendo DS.dat"),
-  "PS1": path.join(DAT_DIR, "Sony - PlayStation.dat"),
-};
+// build PLATFORM_DAT from PLATFORMS  
+const PLATFORM_DAT: Record<string, string> = {};
+for (const [key, platform] of Object.entries(PLATFORMS)) {
+  if (platform.dat) {
+    PLATFORM_DAT[key] = path.join(DAT_DIR, platform.dat);
+  }
+}
 
 router.post("/scan", async (req: Request, res: Response) => {
   const { path: folderPath } = req.body;
