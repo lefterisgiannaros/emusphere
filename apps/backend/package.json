@@ -24,6 +24,7 @@
     "postinstall": "prisma generate",
     "dats:download": "tsx scripts/download-dats.ts",
     "dats:force": "tsx scripts/download-dats.ts --force",
-    "dats:list": "tsx scripts/download-dats.ts --list"
+    "dats:list": "tsx scripts/download-dats.ts --list",
+    "studio": "prisma studio"
   }
 }

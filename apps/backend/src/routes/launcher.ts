@@ -7,25 +7,28 @@ import { PLATFORMS } from '../config/platforms';
 
 const router = Router();
 
-// const PLATFORM_CORES: Record<string, string> = {
-//   "GBA": "mgba_libretro",
-//   "GBC": "gambatte_libretro",
-//   "GB":  "gambatte_libretro",
-//   "NDS": "desmume_libretro",
-//   "PS1": "pcsx_rearmed_libretro",
-//   "N64": "mupen64plus_next_libretro",
-// };
-
 const PLATFORM_CORES: Record<string, string> = {};
 for (const [key, platform] of Object.entries(PLATFORMS)) {
-  for (const ext of platform.extensions) {
-    PLATFORM_CORES[ext] = key;
-  }
+  PLATFORM_CORES[key] = platform.core;
+}
+
+function getRetroArchPath(): string {
+  const platform = os.platform();
+  if (platform === 'darwin') return '/Applications/RetroArch.app/Contents/MacOS/RetroArch';
+  if (platform === 'win32') return 'C:\\RetroArch-Win64\\retroarch.exe';
+  return '/usr/bin/retroarch';
+}
+
+function getCoresPath(): string {
+  const platform = os.platform();
+  if (platform === 'darwin') return path.join(os.homedir(), 'Library/Application Support/RetroArch/cores');
+  if (platform === 'win32') return 'C:\\RetroArch-Win64\\cores';
+  return path.join(os.homedir(), '.config/retroarch/cores');
 }
 
 router.post("/:id/launch", async (req: Request, res: Response) => {
-    const rawId = Array.isArray(req.params.id) ? req.params.id[0] : req.params.id;
-    const gameId = parseInt(rawId, 10);
+  const rawId = Array.isArray(req.params.id) ? req.params.id[0] : req.params.id;
+  const gameId = parseInt(rawId, 10);
 
   if (isNaN(gameId)) {
     res.status(400).json({ error: "invalid game id" });
@@ -49,8 +52,8 @@ router.post("/:id/launch", async (req: Request, res: Response) => {
   }
 
   const coreExt = os.platform() === 'win32' ? '.dll' : '.dylib';
-  const retroarchPath = '/Applications/RetroArch.app/Contents/MacOS/RetroArch';
-  const corePath = path.join(os.homedir(), 'Library/Application Support/RetroArch/cores', `${core}${coreExt}`);
+  const retroarchPath = getRetroArchPath();
+  const corePath = path.join(getCoresPath(), `${core}_libretro${coreExt}`);
 
   spawn(retroarchPath, ['-L', corePath, game.filePath], {
     detached: true,

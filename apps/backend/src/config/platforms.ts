@@ -45,7 +45,7 @@ export const PLATFORMS: Record<string, PlatformConfig> = {
   },
   GB: {
     name: 'Game Boy',
-    core: 'gambatte',
+    core: 'mgba',
     extensions: ['.gb', '.dmg', '.zip', '.7z'],
     dat: 'Nintendo - Game Boy.dat',
     datUrl: 'https://raw.githubusercontent.com/libretro/libretro-database/master/metadat/no-intro/Nintendo%20-%20Game%20Boy.dat',
@@ -53,7 +53,7 @@ export const PLATFORMS: Record<string, PlatformConfig> = {
   },
   GBC: {
     name: 'Game Boy Color',
-    core: 'gambatte',
+    core: 'mgba',
     extensions: ['.gbc', '.zip', '.7z'],
     dat: 'Nintendo - Game Boy Color.dat',
     datUrl: 'https://raw.githubusercontent.com/libretro/libretro-database/master/metadat/no-intro/Nintendo%20-%20Game%20Boy%20Color.dat',

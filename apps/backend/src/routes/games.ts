@@ -105,5 +105,9 @@ router.post("/scan", async (req: Request, res: Response) => {
   });
 });
 
+router.get('/', async (req: Request, res: Response) => {
+  const games = await prisma.game.findMany();
+  res.json(games);
+});
 
 export default router;
