@@ -7,5 +7,23 @@
   ],
   "allowScripts": {
     "better-sqlite3": true
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.3.3",
+    "@types/cors": "^2.8.19",
+    "concurrently": "^10.0.4",
+    "tailwindcss": "^4.3.3",
+    "vite": "^8.1.5",
+    "vite-plugin-electron": "^1.1.0"
+  },
+  "scripts": {
+    "dev:backend": "npm run dev --workspace=@retro-hub/backend",
+    "dev:desktop": "npm run dev --workspace=@retro-hub/desktop",
+    "studio": "npm run studio --workspace=@retro-hub/backend",
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:desktop\""
+  },
+  "dependencies": {
+    "cors": "^2.8.6",
+    "extract-zip": "^2.0.1"
   }
 }

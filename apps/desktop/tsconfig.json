@@ -1,0 +1,10 @@
+{
+    "extends": "../../tsconfig.json",
+    "compilerOptions": {
+      "jsx": "react-jsx",
+      "module": "ESNext",
+      "moduleResolution": "bundler",
+      "types": ["node"]
+    },
+    "include": ["src/**/*", "electron/**/*", "vite.config.ts"]
+  }
