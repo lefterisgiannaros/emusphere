@@ -1,13 +1,10 @@
-import fs from 'fs';
 import path from 'path';
 import { PLATFORMS } from '../src/config/platforms';
+import { downloadFile } from './utils';
 
 const DAT_DIR = path.join(process.cwd(), 'data/dats');
 
-async function downloadDats() {
-  // 1. create DAT_DIR if it doesn't exist
-  fs.mkdirSync(DAT_DIR, { recursive: true });
-
+export async function downloadDats() {
   for (const [key, platform] of Object.entries(PLATFORMS)) {
     if (!platform.datUrl) {
       console.log(`⏭ skipping ${key} - no dat URL`);
@@ -16,26 +13,8 @@ async function downloadDats() {
 
     const filename = decodeURIComponent(path.basename(platform.datUrl));
     const dest = path.join(DAT_DIR, filename);
-
-    if (fs.existsSync(dest)) {
-      console.log(`⏭ already exists: ${filename}`);
-      continue;
-    }
-
-    console.log(`⬇ downloading: ${filename}`);
-    const response = await fetch(platform.datUrl);
-    
-    if (!response.ok) {
-      console.error(`✗ failed: ${filename} (${response.status})`);
-      continue;
-    }
-
-    const text = await response.text();
-    fs.writeFileSync(dest, text, 'utf8');
-    console.log(`✓ saved: ${filename}`);
+    await downloadFile(platform.datUrl, dest);
   }
 
-  console.log('\ndone.');
+  console.log('\ndats done.');
 }
-
-downloadDats().catch(console.error);
