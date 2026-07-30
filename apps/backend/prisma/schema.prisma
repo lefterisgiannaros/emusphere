@@ -13,6 +13,7 @@ model Game {
   title               String
   platform            Platform
   filePath            String        @unique
+  crc                 String?
   coverImagePath      String?
   retroAchievementsId String?
   isInBacklog         Boolean       @default(false)
@@ -35,6 +36,12 @@ model Settings {
   retroAchievementsUsername String?
   retroAchievementsApiKey   String?
   romDirectories            String  @default("[]")
+  screenScraperUsername     String?
+  screenScraperPassword     String?
+  retroArchPath             String?
+  preferredLanguage         String  @default("en")
+  preferredRegion           String  @default("us")
+  artworkType               String  @default("box-2D")
 }
 
 model Emulator {

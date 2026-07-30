@@ -65,17 +65,17 @@ router.post("/scan", async (req: Request, res: Response) => {
 
     const baseName = path.basename(romFile, extension);
     const cleanName = baseName.replace(/^\d+ - /, '').trim();
+    const hash = hashFile(filePath);
+
     const newGame = await prisma.game.create({
       data: {
         sku: null,
+        crc: hash,
         title: cleanName,
         platform,
         filePath,
       },
     });
-    
-    // hash the ROM file
-    const hash = hashFile(filePath);
     
     // get the dat file for this platform
     const datPath = PLATFORM_DAT[platform];

@@ -49,3 +49,4 @@
 - Post-setup tests to verify cores are working
 - RetroArch patch notes monitoring for breaking changes
 - Development branch with auto-update checks
+- Electron keytar package to encrypt user creds even if they're stored locally
