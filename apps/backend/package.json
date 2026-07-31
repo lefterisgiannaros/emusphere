@@ -1,5 +1,5 @@
 {
-  "name": "@retro-hub/backend",
+  "name": "@emu-sphere/backend",
   "version": "1.0.0",
   "private": true,
   "dependencies": {

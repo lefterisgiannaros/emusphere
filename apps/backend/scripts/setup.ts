@@ -3,7 +3,7 @@ import { downloadRetroarch } from './download-retroarch';
 import { downloadCores } from './download-cores';
 
 async function setup() {
-  console.log('=== RetroHub Setup ===\n');
+  console.log('=== EmuSphere Setup ===\n');
   await downloadRetroarch();
   await downloadCores();
   await downloadDats();
