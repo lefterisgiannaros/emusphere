@@ -1,4 +1,4 @@
-# EmuArena
+# EmuSphere
 
 A native desktop retro game launcher and library manager built for completionists and competitive retro gamers.
 

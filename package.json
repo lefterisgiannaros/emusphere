@@ -1,5 +1,5 @@
 {
-  "name": "retro-launcher",
+  "name": "emu-sphere",
   "private": true,
   "workspaces": [
     "apps/*",
@@ -17,9 +17,9 @@
     "vite-plugin-electron": "^1.1.0"
   },
   "scripts": {
-    "dev:backend": "npm run dev --workspace=@retro-hub/backend",
-    "dev:desktop": "npm run dev --workspace=@retro-hub/desktop",
-    "studio": "npm run studio --workspace=@retro-hub/backend",
+    "dev:backend": "npm run dev --workspace=@emu-sphere/backend",
+    "dev:desktop": "npm run dev --workspace=@emu-sphere/desktop",
+    "studio": "npm run studio --workspace=@emu-sphere/backend",
     "dev": "concurrently \"npm run dev:backend\" \"npm run dev:desktop\""
   },
   "dependencies": {
