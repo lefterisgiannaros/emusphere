@@ -50,3 +50,4 @@
 - RetroArch patch notes monitoring for breaking changes
 - Development branch with auto-update checks
 - Electron keytar package to encrypt user creds even if they're stored locally
+- Test connection button in settings for retroachievements connection
