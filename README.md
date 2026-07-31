@@ -1,6 +1,6 @@
 # RetroHub
 
-RetroHub is a native desktop launcher for retro gaming enthusiasts who take their collection seriously. Scan your ROMs, get beautiful metadata, track achievements, and launch any game in seconds — all from one place.
+A native desktop retro game launcher and library manager built for completionists and competitive retro gamers.
 
 ![Status](https://img.shields.io/badge/status-in%20development-orange)
 ![Platform](https://img.shields.io/badge/platform-Mac%20%7C%20Windows%20%7C%20Linux-blue)
